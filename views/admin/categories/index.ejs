@@ -4,8 +4,16 @@
 <div class="container">
   <hr />
   <h2>Categorias</h2>
-  <hr />
 
+  <a
+    class="btn btn-success"
+    href="/categories/admin/categories/new"
+    style="margin-top: 5px;"
+  >
+    <i class="fas fa-plus"></i>
+    Criar nova categoria
+  </a>
+  <hr />
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -22,12 +30,12 @@
         <th><%= category.title %></th>
         <th><%= category.slug %></th>
         <th>
-          <button class="btn btn-warning">
+          <a class="btn btn-warning">
             <i class="fa fa-pencil"></i>
-          </button>
-          <button class="btn btn-danger">
+          </a>
+          <a class="btn btn-danger">
             <i class="fa fa-trash"></i>
-          </button>
+          </a>
         </th>
       </tr>
       <% }) %>

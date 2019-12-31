@@ -36,7 +36,9 @@ router.post("/save", (req, res) => {
 //rota para listar as categorias
 router.get("/admin/categories", (req, res) => {
   //Buscando Categorias no Banco de dados
-  Category.findAll()
+  Category.findAll({
+    order: [["title", "ASC"]]
+  })
     .then(categories => {
       res.render("admin/categories/index", {
         categories: categories
