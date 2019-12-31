@@ -5,10 +5,13 @@ const bodyParser = require("body-parser");
 const categoriesController = require("./categories/CategoriesController"); // Arquivo de Categoria
 const articlesController = require("./articles/ArticlesController"); // Arquivo de Artigo
 
-// Import arquivo de conexão do banco
+// Importando arquivos de Models
+const Category = require("./categories/Category"); // Model de Categorias
+const Article = require("./articles/Article"); // Model de artigos.
+
+// Import arquivo de config e criando conexão com o Banco de Dados
 const connection = require("./database/database");
 
-//conexão com banco de dados
 connection
   .authenticate()
   .then(() => {
