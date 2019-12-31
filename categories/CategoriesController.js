@@ -20,7 +20,7 @@ router.post("/save", (req, res) => {
       slug: slugify(title)
     })
       .then(() => {
-        res.redirect("/");
+        res.redirect("/categories/admin/categories");
       })
       .catch(error => {
         res.status(404).json({
@@ -82,6 +82,39 @@ router.post("/admin/delete", (req, res) => {
     }
   } else {
     //Se ID for null, redireciona
+    res.redirect("/categories/admin/categories");
+  }
+});
+
+//rota para view de atualizar categoria
+router.get("/admin/categories/edit/:id", (req, res) => {
+  var id = req.params.id;
+
+  if (id != undefined) {
+    if (isNaN(id)) {
+      //se id nao for numero redireciona
+      res.redirect("/categories/admin/categories");
+    } else {
+      Category.findByPk(id)
+        .then(category => {
+          if (category != undefined) {
+            res.render("admin/categories/edit", {
+              category: category
+            });
+          } else {
+            res.redirect("/categories/admin/categories");
+          }
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno ao atualizar categoria",
+            error: error
+          });
+        });
+    }
+  } else {
+    //Se o ID for null
     res.redirect("/categories/admin/categories");
   }
 });

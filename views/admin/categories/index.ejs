@@ -30,9 +30,12 @@
         <th><%= category.title %></th>
         <th><%= category.slug %></th>
         <th>
-          <button class="btn btn-warning">
+          <a
+            class="btn btn-warning"
+            href="/categories/admin/categories/edit/<%= category.id %>"
+          >
             <i class="fa fa-pencil"></i>
-          </button>
+          </a>
 
           <form
             method="POST"
