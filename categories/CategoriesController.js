@@ -119,4 +119,13 @@ router.get("/admin/categories/edit/:id", (req, res) => {
   }
 });
 
+router.post("categories/update", (req, res) => {
+  const title = req.body.title; // recebendo novo titulo do form
+  //verificando se titulo não e nulo
+  if (title != undefined) {
+  } else {
+    res.redirect("/categories/admin/categories");
+  }
+});
+
 module.exports = router;
