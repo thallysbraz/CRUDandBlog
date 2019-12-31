@@ -8,14 +8,15 @@
       <h2>Cadastro de Categoria</h2>
     </div>
     <div class="card-body">
-      <form>
+      <form method="POST" action="/categories/save">
         <input
           class="form-control"
           type="text"
           name="title"
           placeholder="Defina o título da categoria"
+          required
         />
-        <button class="btn btn-success" style="margin-top: 5px;">
+        <button class="btn btn-success" type="submit" style="margin-top: 5px;">
           Cadastrar
         </button>
       </form>
