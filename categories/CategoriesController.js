@@ -5,14 +5,13 @@ const router = express.Router();
 //Importando Model de Categoria
 const Category = require("./Category");
 
-router.get("/", (req, res) => {
-  res.send("Rota de categoria");
-});
-
+//rotas de categoria
+//rota para admin ver form de categorias
 router.get("/admin/categories/new", (req, res) => {
-  res.render("admin/categories/new");
+  res.render("admin/categories/new"); //renderizando form de cadastro de categoria
 });
 
+//rota para salvar novas categorias
 router.post("/save", (req, res) => {
   const title = req.body.title;
   if (title != undefined) {
@@ -32,6 +31,13 @@ router.post("/save", (req, res) => {
   } else {
     res.redirect("/categories/admin/categories/new");
   }
+});
+
+//rota para listar as categorias
+router.get("/admin/categories", (req, res) => {
+  //Buscando Categorias no Banco de dados
+
+  res.render("admin/categories/index");
 });
 
 module.exports = router;
