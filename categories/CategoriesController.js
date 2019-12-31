@@ -36,9 +36,7 @@ router.post("/save", (req, res) => {
 //rota para listar as categorias
 router.get("/admin/categories", (req, res) => {
   //Buscando Categorias no Banco de dados
-  Category.findAll({
-    order: [["title", "ASC"]]
-  })
+  Category.findAll()
     .then(categories => {
       res.render("admin/categories/index", {
         categories: categories
@@ -50,6 +48,42 @@ router.get("/admin/categories", (req, res) => {
         error: error
       });
     });
+});
+
+//rota para deletar categoria do Banco de Dados
+router.post("/admin/delete", (req, res) => {
+  console.log("chegou aqui");
+  const id = req.body.id;
+  console.log("id: " + id);
+  //verificando se id está definido
+  if (id != undefined) {
+    //verificando se o ID informado, e um numero
+    if (!isNaN(id)) {
+      //Deletando categoria
+      Category.destroy({
+        where: {
+          id: id
+        }
+      })
+        .then(() => {
+          // se excluir corretamente redireciona
+          res.redirect("/categories/admin/categories");
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno ao excluir categoria",
+            error: error
+          });
+        });
+    } else {
+      // Se ID não for número, redireciona
+      res.redirect("/categories/admin/categories");
+    }
+  } else {
+    //Se ID for null, redireciona
+    res.redirect("/categories/admin/categories");
+  }
 });
 
 module.exports = router;
