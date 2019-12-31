@@ -15,7 +15,7 @@ const connection = require("./database/database");
 connection
   .authenticate()
   .then(() => {
-    console.log("conexão com banco de dados criada.");
+    console.log("Conexão com banco de dados criada.");
   })
   .catch(error => {
     console.log("error ao conectar no banco: " + error);
