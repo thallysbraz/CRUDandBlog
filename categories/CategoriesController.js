@@ -24,7 +24,7 @@ router.post("/save", (req, res) => {
       })
       .catch(error => {
         res.status(404).json({
-          msg: "Error ao pesquisar resposta, por favor, refazer a busca",
+          msg: "Error ao salvar titulo de categoria, por favor, refazer.",
           error: error
         });
       });
@@ -36,8 +36,18 @@ router.post("/save", (req, res) => {
 //rota para listar as categorias
 router.get("/admin/categories", (req, res) => {
   //Buscando Categorias no Banco de dados
-
-  res.render("admin/categories/index");
+  Category.findAll()
+    .then(categories => {
+      res.render("admin/categories/index", {
+        categories: categories
+      });
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar categorias, por favor",
+        error: error
+      });
+    });
 });
 
 module.exports = router;

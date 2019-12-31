@@ -16,12 +16,21 @@
       </tr>
     </thead>
     <tbody>
+      <% categories.forEach(category => { %>
       <tr>
-        <th>1</th>
-        <th>Dev Web</th>
-        <th>dev-web</th>
-        <th>Ações</th>
+        <th><%= category.id %></th>
+        <th><%= category.title %></th>
+        <th><%= category.slug %></th>
+        <th>
+          <button class="btn btn-warning">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="btn btn-danger">
+            <i class="fa fa-trash"></i>
+          </button>
+        </th>
       </tr>
+      <% }) %>
     </tbody>
   </table>
 </div>
