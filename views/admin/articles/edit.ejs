@@ -1,0 +1,75 @@
+<%- include ("../../partials/header.ejs") %> <%- include
+("../../partials/navbar.ejs") %>
+
+<div class="container">
+  <hr />
+  <div class="card">
+    <div class="card-header">
+      <h2>Editar artigo</h2>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="/articles/admin/update">
+        <!-- input Title do artigo -->
+        <labe>Titulo:</labe>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          value="<%= article.title %>"
+          style="margin-bottom: 5px;"
+          required
+        />
+        <!-- input id do artigo -->
+        <input
+          class="form-control"
+          type="hidden"
+          name="id"
+          value="<%= article.id %>"
+          required
+        />
+        <!-- input Categoria do artigo -->
+        <labe>Categoria:</labe>
+        <select
+          name="category"
+          style="margin-bottom: 5px;"
+          class="form-control"
+        >
+          <option value="<%= article.categoryId %>">
+            <%= article.category.title %>
+          </option>
+          <% categories.forEach((category) => { %> <% if(category.title !=
+          article.category.title){ %> return; } else {
+          <option value="<%= category.id %>"> <%= category.title %> </option>
+          <% } %> <% }) %>
+        </select>
+        <!-- input texto do artigo -->
+        <textarea
+          class="form-control"
+          value="<%= article.body %>"
+          name="body"
+          id="article"
+        >
+ <%= article.body %>
+        </textarea>
+
+        <button class="btn btn-success" type="submit" style="margin-top: 5px;">
+          Atualizar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ("../../partials/footer.ejs") %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+
+<script>
+  tinymce.init({
+    language: "pt_BR",
+    selector: "#article",
+    plugins: [
+      "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons"
+    ]
+  });
+</script>

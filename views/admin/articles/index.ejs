@@ -34,19 +34,20 @@
         <td>
           <a
             class="btn btn-warning"
-            href="/categories/admin/categories/edit/<%= articles.id %>"
+            title="Alterar"
+            href="/articles/admin/edit/<%= articles.id %>"
           >
             <i class="fa fa-pencil"></i>
           </a>
 
           <form
             method="POST"
-            action="/categories/admin/delete"
+            action="/articles/admin/delete"
             style="display: inline;"
             onsubmit="confirmarDelecao(event, this)"
           >
             <input type="hidden" name="id" value=" <%= articles.id %> " />
-            <button class="btn btn-danger" type="submit">
+            <button class="btn btn-danger" title="Excluir" type="submit">
               <i class="fa fa-trash"></i>
             </button>
           </form>
@@ -62,7 +63,7 @@
 <script>
   function confirmarDelecao(event, form) {
     event.preventDefault();
-    var decision = confirm("Deseja excluir eta categoria?");
+    var decision = confirm("Deseja excluir este artigo?");
     if (decision) {
       form.submit();
     }

@@ -7,19 +7,23 @@ const router = express.Router();
 const Category = require("../categories/Category"); // Categoria
 const Article = require("./Article"); // Artigo
 
-//rotas
+//rotas para listar artigos
 router.get("/admin", (req, res) => {
+  /* 
+  Buscando artigos no banco e incluindo model de Category para fazer join entre artigos e categorias para exibir a qual categoria cada artigo pertence no front
+  */
   Article.findAll({
     include: [{ model: Category }]
   })
     .then(articles => {
+      //render view com os artigos encontrados
       res.render("admin/articles/index", {
         articles: articles
       });
     })
     .catch(error => {
       res.status(404).json({
-        msg: "Error ao listar categorias, por favor",
+        msg: "Error ao listar artigos",
         error: error
       });
     });
@@ -73,6 +77,128 @@ router.post("/save", (req, res) => {
     }
   } else {
     res.redirect("/");
+  }
+});
+
+//rota para deletar artigo do Banco de Dados
+router.post("/admin/delete", (req, res) => {
+  const id = req.body.id;
+  //verificando se id está definido
+  if (id != undefined) {
+    //verificando se o ID informado, e um numero
+    if (!isNaN(id)) {
+      //Deletando categoria
+      Article.destroy({
+        where: {
+          id: id
+        }
+      })
+        .then(() => {
+          // se excluir corretamente redireciona
+          res.redirect("/articles/admin");
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno ao excluir categoria",
+            error: error
+          });
+        });
+    } else {
+      // Se ID não for número, redireciona
+      res.redirect("/articles/admin");
+    }
+  } else {
+    //Se ID for null, redireciona
+    res.redirect("/articles/admin");
+  }
+});
+
+//rota para view de atualizar artigo
+router.get("/admin/edit/:id", (req, res) => {
+  var id = req.params.id;
+
+  if (id != undefined) {
+    if (isNaN(id)) {
+      //se id nao for numero redireciona
+      res.redirect("/articles/admin");
+    } else {
+      Category.findAll()
+        .then(categories => {
+          Article.findByPk(id, {
+            include: [{ model: Category }]
+          })
+            .then(article => {
+              if (article != undefined) {
+                res.render("admin/articles/edit", {
+                  article: article,
+                  categories: categories
+                });
+              } else {
+                res.redirect("/articles/admin");
+              }
+            })
+            .catch(error => {
+              // se der erro interno, mostra json ao usuário com o erro.
+              res.status(404).json({
+                msg: "Error interno ao renderizar view de atualizar categoria",
+                error: error
+              });
+            });
+        })
+        .catch(error => {
+          res.status(404).json({
+            msg: "Error ao buscar categorias, por favor",
+            error: error
+          });
+        });
+    }
+  } else {
+    //Se o ID for null
+    res.redirect("/articles/admin");
+  }
+});
+
+//rota para salvar update de artigo
+router.post("/admin/update", (req, res) => {
+  var { title, id, category, body } = req.body; //recebendo dados do form
+
+  //verificando se dados do form não são nulos
+  if (
+    title != undefined &&
+    id != undefined &&
+    category != undefined &&
+    body != undefined
+  ) {
+    //verificando se ID informado é número
+    if (!isNaN(id)) {
+      // se for número, atualiza o title e slug pelo ID da categoria no BD
+      Article.update(
+        {
+          title: title,
+          slug: slugify(title),
+          body: body,
+          categoryId: category
+        },
+        { where: { id: id } }
+      )
+        .then(() => {
+          res.redirect("/articles/admin");
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno ao atualizar categoria",
+            error: error
+          });
+        });
+    } else {
+      // se NÃO for número, redirec para view de listar os artigos
+      res.redirect("/articles/admin");
+    }
+  } else {
+    //Se dados do form forem nulo, redirec para view de listar os artigos
+    res.redirect("/articles/admin");
   }
 });
 
