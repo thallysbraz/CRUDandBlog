@@ -36,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); //reconhecendo JSON
 
 //rotas
+
 //rota raiz
 app.get("/", (req, res) => {
   res.render("index");
@@ -43,6 +44,7 @@ app.get("/", (req, res) => {
 
 app.use("/categories", categoriesController); // Middleware de rotas de categorias
 app.use("/articles", articlesController); // Middleware de rotas de artigos
+
 //porta que o serve está rodando
 app.listen(PORT, () => {
   try {

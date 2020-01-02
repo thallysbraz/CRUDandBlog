@@ -108,7 +108,7 @@ router.get("/admin/categories/edit/:id", (req, res) => {
         .catch(error => {
           // se der erro interno, mostra json ao usuário com o erro.
           res.status(404).json({
-            msg: "Error interno ao atualizar categoria",
+            msg: "Error interno ao renderizar view de atualizar categoria",
             error: error
           });
         });
@@ -119,11 +119,38 @@ router.get("/admin/categories/edit/:id", (req, res) => {
   }
 });
 
-router.post("categories/update", (req, res) => {
-  const title = req.body.title; // recebendo novo titulo do form
-  //verificando se titulo não e nulo
-  if (title != undefined) {
+//rota para salvar update de categoria
+router.post("/categories/update", (req, res) => {
+  var { id, title } = req.body; //recebendo dados do form
+
+  //verificando se titulo e id não são nulos
+  if (title != undefined && id != undefined) {
+    //verificando se ID informado é número
+    if (!isNaN(id)) {
+      // se for número, atualiza o title e slug pelo ID da categoria no BD
+      Category.update(
+        {
+          title: title,
+          slug: slugify(title)
+        },
+        { where: { id: id } }
+      )
+        .then(() => {
+          res.redirect("/categories/admin/categories");
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno ao atualizar categoria",
+            error: error
+          });
+        });
+    } else {
+      // se NÃO for número, redirec para view de listar as categorias
+      res.redirect("/categories/admin/categories");
+    }
   } else {
+    //Se title ou ID forem nulo, redirec para view de listar as categorias
     res.redirect("/categories/admin/categories");
   }
 });
