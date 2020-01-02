@@ -17,12 +17,23 @@
           style="margin-bottom: 5px;"
           required
         />
+        <labe>Categoria:</labe>
+        <select
+          name="category"
+          style="margin-bottom: 5px;"
+          class="form-control"
+        >
+          <% categories.forEach((category) => { %>
+          <option value="<%= category.id %>"> <%= category.title %> </option>
+          <% }) %>
+        </select>
         <textarea
           class="form-control"
           placeholder="Escreva o artigo aqui!"
           name="body"
           id="article"
         ></textarea>
+
         <button class="btn btn-success" type="submit" style="margin-top: 5px;">
           Cadastrar
         </button>
