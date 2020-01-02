@@ -9,7 +9,18 @@ const Article = require("./Article"); // Artigo
 
 //rotas
 router.get("/admin", (req, res) => {
-  res.send("Rota de Artigo");
+  Article.findAll()
+    .then(articles => {
+      res.render("admin/articles/index", {
+        articles: articles
+      });
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar categorias, por favor",
+        error: error
+      });
+    });
 });
 
 //rota para renderizar view de add artigo

@@ -1,0 +1,70 @@
+<%- include ("../../partials/header.ejs") %> <%- include
+("../../partials/navbar.ejs") %>
+
+<div class="container">
+  <hr />
+  <h2>Artigos</h2>
+
+  <a
+    class="btn btn-success"
+    href="/articles/admin/articles/new"
+    style="margin-top: 5px;"
+  >
+    <i class="fas fa-plus"></i>
+    Criar novo artigo
+  </a>
+  <hr />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Titulo</th>
+        <th>Slug</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% articles.forEach(articles => { %>
+      <tr>
+        <th><%= articles.id %></th>
+        <th><%= articles.title %></th>
+        <th><%= articles.slug %></th>
+        <th><%= articles.body %></th>
+        <th>
+          <a
+            class="btn btn-warning"
+            href="/categories/admin/categories/edit/<%= articles.id %>"
+          >
+            <i class="fa fa-pencil"></i>
+          </a>
+
+          <form
+            method="POST"
+            action="/categories/admin/delete"
+            style="display: inline;"
+            onsubmit="confirmarDelecao(event, this)"
+          >
+            <input type="hidden" name="id" value=" <%= articles.id %> " />
+            <button class="btn btn-danger" type="submit">
+              <i class="fa fa-trash"></i>
+            </button>
+          </form>
+        </th>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include ("../../partials/footer.ejs") %>
+
+<script>
+  function confirmarDelecao(event, form) {
+    event.preventDefault();
+    var decision = confirm("Deseja excluir eta categoria?");
+    if (decision) {
+      form.submit();
+    }
+  }
+</script>

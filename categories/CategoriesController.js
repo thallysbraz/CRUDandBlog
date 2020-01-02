@@ -11,6 +11,23 @@ router.get("/admin/categories/new", (req, res) => {
   res.render("admin/categories/new"); //renderizando form de cadastro de categoria
 });
 
+//rota para listar as categorias
+router.get("/admin/categories", (req, res) => {
+  //Buscando Categorias no Banco de dados
+  Category.findAll()
+    .then(categories => {
+      res.render("admin/categories/index", {
+        categories: categories
+      });
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar categorias, por favor",
+        error: error
+      });
+    });
+});
+
 //rota para salvar novas categorias
 router.post("/save", (req, res) => {
   const title = req.body.title;
@@ -31,23 +48,6 @@ router.post("/save", (req, res) => {
   } else {
     res.redirect("/categories/admin/categories/new");
   }
-});
-
-//rota para listar as categorias
-router.get("/admin/categories", (req, res) => {
-  //Buscando Categorias no Banco de dados
-  Category.findAll()
-    .then(categories => {
-      res.render("admin/categories/index", {
-        categories: categories
-      });
-    })
-    .catch(error => {
-      res.status(404).json({
-        msg: "Error ao listar categorias, por favor",
-        error: error
-      });
-    });
 });
 
 //rota para deletar categoria do Banco de Dados
