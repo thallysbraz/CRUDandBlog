@@ -39,7 +39,17 @@ app.use(bodyParser.json()); //reconhecendo JSON
 
 //rota raiz
 app.get("/", (req, res) => {
-  res.render("index");
+  //Pesquisando artigos
+  Article.findAll({ include: [{ model: Category }] })
+    .then(articles => {
+      res.render("index", { articles: articles });
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar categorias, por favor",
+        error: error
+      });
+    });
 });
 
 app.use("/categories", categoriesController); // Middleware de rotas de categorias
