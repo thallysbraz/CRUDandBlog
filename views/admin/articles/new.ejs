@@ -14,13 +14,14 @@
           type="text"
           name="title"
           placeholder="Defina o título do artigo"
+          style="margin-bottom: 5px;"
           required
         />
         <textarea
           class="form-control"
           placeholder="Escreva o artigo aqui!"
           name="body"
-          style="margin-top: 5px;"
+          id="article"
         ></textarea>
         <button class="btn btn-success" type="submit" style="margin-top: 5px;">
           Cadastrar
@@ -31,3 +32,15 @@
 </div>
 
 <%- include ("../../partials/footer.ejs") %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+
+<script>
+  tinymce.init({
+    language: "pt_BR",
+    selector: "#article",
+    plugins: [
+      "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons"
+    ]
+  });
+</script>
