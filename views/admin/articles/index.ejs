@@ -27,11 +27,11 @@
     <tbody>
       <% articles.forEach(articles => { %>
       <tr>
-        <th><%= articles.id %></th>
-        <th><%= articles.title %></th>
-        <th><%= articles.slug %></th>
-        <th><%= articles.body %></th>
-        <th>
+        <td><%= articles.id %></td>
+        <td><%= articles.title %></td>
+        <td><%= articles.slug %></td>
+        <th><%= articles.category.title %></th>
+        <td>
           <a
             class="btn btn-warning"
             href="/categories/admin/categories/edit/<%= articles.id %>"
@@ -50,7 +50,7 @@
               <i class="fa fa-trash"></i>
             </button>
           </form>
-        </th>
+        </td>
       </tr>
       <% }) %>
     </tbody>

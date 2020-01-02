@@ -9,7 +9,9 @@ const Article = require("./Article"); // Artigo
 
 //rotas
 router.get("/admin", (req, res) => {
-  Article.findAll()
+  Article.findAll({
+    include: [{ model: Category }]
+  })
     .then(articles => {
       res.render("admin/articles/index", {
         articles: articles
