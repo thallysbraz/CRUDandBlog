@@ -6,11 +6,6 @@ const router = express.Router();
 const Category = require("./Category");
 
 //rotas de categoria
-//rota para admin ver form de categorias
-router.get("/admin/categories/new", (req, res) => {
-  res.render("admin/categories/new"); //renderizando form de cadastro de categoria
-});
-
 //rota para listar as categorias
 router.get("/admin/categories", (req, res) => {
   //Buscando Categorias no Banco de dados
@@ -26,6 +21,10 @@ router.get("/admin/categories", (req, res) => {
         error: error
       });
     });
+});
+//rota para admin ver form de categorias
+router.get("/admin/categories/new", (req, res) => {
+  res.render("admin/categories/new"); //renderizando form de cadastro de categoria
 });
 
 //rota para salvar novas categorias

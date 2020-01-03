@@ -14,5 +14,13 @@ router.get("/users", (req, res) => {
 router.get("/users/create", (req, res) => {
   res.render("admin/users/create");
 });
+router.post("/users/create", (req, res) => {
+  var { email, password } = req.body;
+
+  console.log("email: " + email);
+  console.log("password: " + password);
+
+  res.redirect("/admin/users/create");
+});
 
 module.exports = router;
