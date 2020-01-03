@@ -214,7 +214,8 @@ router.get("/pages/:num", (req, res) => {
 
   Article.findAndCountAll({
     limit: 4, // numero maximo de dados que o banco retorna
-    offset: offset // Retorna dados a partir de:
+    offset: offset, // Retorna dados a partir de:
+    order: [["id", "DESC"]]
   })
     .then(articles => {
       var next;
