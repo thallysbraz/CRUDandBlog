@@ -42,11 +42,20 @@ app.get("/", (req, res) => {
   //Pesquisando artigos
   Article.findAll({ order: [["id", "DESC"]] })
     .then(articles => {
-      res.render("index", { articles: articles });
+      Category.findAll()
+        .then(categories => {
+          res.render("index", { articles: articles, categories: categories });
+        })
+        .catch(error => {
+          res.status(404).json({
+            msg: "Error ao listar artigos",
+            error: error
+          });
+        });
     })
     .catch(error => {
       res.status(404).json({
-        msg: "Error ao listar categorias, por favor",
+        msg: "Error ao listar artigos",
         error: error
       });
     });
@@ -64,9 +73,16 @@ app.get("/:slug", (req, res) => {
   })
     .then(article => {
       if (article != undefined) {
-        res.render("article", {
-          article: article
-        });
+        Category.findAll()
+          .then(categories => {
+            res.render("article", { article: article, categories: categories });
+          })
+          .catch(error => {
+            res.status(404).json({
+              msg: "Error ao listar artigos",
+              error: error
+            });
+          });
       } else {
         res.redirect("/");
       }
