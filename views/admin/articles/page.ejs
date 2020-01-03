@@ -2,18 +2,37 @@
 ("../../partials/homenavbar.ejs") %>
 
 <body>
+  <div class="container">
     <hr />
-        <% result.articles.rows.forEach(article => { %>
-        <div class="card" style="margin-bottom: 5px;">
-            <div class="card-header">
-                <h2><%= article.title %></h2>
-            </div>
-            <div class="card-body">
-                <a class="btn btn-success" href="/<%= article.slug %>"> Ler artigo</a>
-            </div>
-        </div>
-        <% }) %>
+    <% result.articles.rows.forEach(article => { %>
+    <div class="card" style="margin-bottom: 5px;">
+      <div class="card-header">
+        <h2><%= article.title %></h2>
+      </div>
+      <div class="card-body">
+        <a class="btn btn-success" href="/<%= article.slug %>"> Ler artigo</a>
+      </div>
     </div>
+    <% }) %>
+
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col col-12">
+        <% if(result.page > 2) { %>
+        <a style="float: left" href="/articles/pages/<%= result.page - 1%>">
+          <i class="fas fa-angle-left"></i> Prev
+        </a>
+        <% } else if(result.page == 2) { %>
+        <a style="float: left" href="/">
+          <i class="fas fa-angle-left"></i> Prev
+        </a>
+        <% } %> <% if(result.next) { %>
+        <a style="float: right" href="/articles/pages/<%= result.page + 1%>">
+          Next <i class="fas fa-angle-right"></i>
+        </a>
+        <% } else { %> <% } %>
+      </div>
+    </div>
+  </div>
 </body>
 
 <%- include ("../../partials/footer.ejs") %>

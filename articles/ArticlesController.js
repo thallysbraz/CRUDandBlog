@@ -225,7 +225,11 @@ router.get("/pages/:num", (req, res) => {
         next = true;
       }
 
-      var result = { next: next, articles: articles };
+      var result = {
+        page: parseInt(page),
+        next: next,
+        articles: articles
+      };
 
       Category.findAll()
         .then(categories => {
