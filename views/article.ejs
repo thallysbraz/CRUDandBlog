@@ -1,25 +1,17 @@
 <%- include ("./partials/header.ejs") %> <%- include
 ("./partials/homenavbar.ejs") %>
+
 <body>
   <hr />
   <div class="container">
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">Guia Press</h1>
-        <p class="lead">Forum de perguntas e respostas</p>
-      </div>
-    </div>
-    <% articles.forEach(article => { %>
     <div class="card" style="margin-bottom: 5px;">
       <div class="card-header">
         <h2><%= article.title %></h2>
       </div>
       <div class="card-body">
-        <a class="btn btn-success" href="/<%= article.slug %>"> Ler artigo</a>
+        <%= article.body %>
       </div>
     </div>
-
-    <% }) %>
   </div>
 </body>
 

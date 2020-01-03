@@ -52,6 +52,33 @@ app.get("/", (req, res) => {
     });
 });
 
+//exibir artigo por slug
+app.get("/:slug", (req, res) => {
+  var slug = req.params.slug;
+
+  // Buscando artigo pelo slug
+  Article.findOne({
+    where: {
+      slug: slug
+    }
+  })
+    .then(article => {
+      if (article != undefined) {
+        res.render("article", {
+          article: article
+        });
+      } else {
+        res.redirect("/");
+      }
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar artigo",
+        error: error
+      });
+    });
+});
+
 app.use("/categories", categoriesController); // Middleware de rotas de categorias
 app.use("/articles", articlesController); // Middleware de rotas de artigos
 
