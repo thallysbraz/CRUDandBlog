@@ -95,6 +95,42 @@ app.get("/:slug", (req, res) => {
     });
 });
 
+app.get("/category/:slug", (req, res) => {
+  var slug = req.params.slug;
+
+  Category.findOne({
+    where: {
+      slug: slug
+    },
+    include: [{ model: Article }]
+  })
+    .then(category => {
+      if (category != undefined) {
+        Category.findAll()
+          .then(categories => {
+            res.render("index", {
+              articles: category.articles,
+              categories: categories
+            });
+          })
+          .catch(error => {
+            res.status(404).json({
+              msg: "Error ao buscar dados",
+              error: error
+            });
+          });
+      } else {
+        res.redirect("/");
+      }
+    })
+    .catch(error => {
+      res.status(404).json({
+        msg: "Error ao listar Categorias",
+        error: error
+      });
+    });
+});
+
 app.use("/categories", categoriesController); // Middleware de rotas de categorias
 app.use("/articles", articlesController); // Middleware de rotas de artigos
 

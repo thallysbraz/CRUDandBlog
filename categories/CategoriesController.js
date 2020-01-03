@@ -22,7 +22,7 @@ router.get("/admin/categories", (req, res) => {
     })
     .catch(error => {
       res.status(404).json({
-        msg: "Error ao listar categorias, por favor",
+        msg: "Error ao listar categorias",
         error: error
       });
     });
@@ -41,7 +41,7 @@ router.post("/save", (req, res) => {
       })
       .catch(error => {
         res.status(404).json({
-          msg: "Error ao salvar titulo de categoria, por favor, refazer.",
+          msg: "Error ao salvar titulo de categoria",
           error: error
         });
       });
