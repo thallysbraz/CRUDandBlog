@@ -4,10 +4,10 @@ const router = express.Router();
 
 //Importando Model de Categoria
 const Category = require("./Category");
-
+const adminAuth = require("../middlewares/adminAuth");
 //rotas de categoria
 //rota para listar as categorias
-router.get("/admin/categories", (req, res) => {
+router.get("/admin/categories", adminAuth, (req, res) => {
   //Buscando Categorias no Banco de dados
   Category.findAll({
     order: [["id", "DESC"]]
@@ -25,12 +25,12 @@ router.get("/admin/categories", (req, res) => {
     });
 });
 //rota para admin ver form de categorias
-router.get("/admin/categories/new", (req, res) => {
+router.get("/admin/categories/new", adminAuth, (req, res) => {
   res.render("admin/categories/new"); //renderizando form de cadastro de categoria
 });
 
 //rota para salvar novas categorias
-router.post("/save", (req, res) => {
+router.post("/save", adminAuth, (req, res) => {
   const title = req.body.title;
   if (title != undefined) {
     Category.create({
@@ -52,7 +52,7 @@ router.post("/save", (req, res) => {
 });
 
 //rota para deletar categoria do Banco de Dados
-router.post("/admin/delete", (req, res) => {
+router.post("/admin/delete", adminAuth, (req, res) => {
   console.log("chegou aqui");
   const id = req.body.id;
   console.log("id: " + id);
@@ -88,7 +88,7 @@ router.post("/admin/delete", (req, res) => {
 });
 
 //rota para view de atualizar categoria
-router.get("/admin/categories/edit/:id", (req, res) => {
+router.get("/admin/categories/edit/:id", adminAuth, (req, res) => {
   var id = req.params.id;
 
   if (id != undefined) {
@@ -121,7 +121,7 @@ router.get("/admin/categories/edit/:id", (req, res) => {
 });
 
 //rota para salvar update de categoria
-router.post("/categories/update", (req, res) => {
+router.post("/categories/update", adminAuth, (req, res) => {
   var { id, title } = req.body; //recebendo dados do form
 
   //verificando se titulo e id não são nulos

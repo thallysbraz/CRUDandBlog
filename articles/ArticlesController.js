@@ -7,8 +7,11 @@ const router = express.Router();
 const Category = require("../categories/Category"); // Categoria
 const Article = require("./Article"); // Artigo
 
+//Middleware
+const adminAuth = require("../middlewares/adminAuth");
+
 //rotas para listar artigos
-router.get("/admin", (req, res) => {
+router.get("/admin", adminAuth, (req, res) => {
   /* 
   Buscando artigos no banco e incluindo model de Category para fazer join entre artigos e categorias para exibir a qual categoria cada artigo pertence no front
   */
@@ -31,7 +34,7 @@ router.get("/admin", (req, res) => {
 });
 
 //rota para renderizar view de add artigo
-router.get("/admin/articles/new", (req, res) => {
+router.get("/admin/articles/new", adminAuth, (req, res) => {
   //Pesquisando as categorias e passando para a view
   Category.findAll()
     .then(categories => {
@@ -49,7 +52,7 @@ router.get("/admin/articles/new", (req, res) => {
 });
 
 //rota para salvar artigo no BD
-router.post("/save", (req, res) => {
+router.post("/save", adminAuth, (req, res) => {
   //recebendo dados(titulo, categoria e body) do form
   var { title, category, body } = req.body;
   //fazendo verificações antes de salvar dado no Banco
@@ -82,7 +85,7 @@ router.post("/save", (req, res) => {
 });
 
 //rota para deletar artigo do Banco de Dados
-router.post("/admin/delete", (req, res) => {
+router.post("/admin/delete", adminAuth, (req, res) => {
   const id = req.body.id;
   //verificando se id está definido
   if (id != undefined) {
@@ -116,7 +119,7 @@ router.post("/admin/delete", (req, res) => {
 });
 
 //rota para view de atualizar artigo
-router.get("/admin/edit/:id", (req, res) => {
+router.get("/admin/edit/:id", adminAuth, (req, res) => {
   var id = req.params.id;
 
   if (id != undefined) {
@@ -161,7 +164,7 @@ router.get("/admin/edit/:id", (req, res) => {
 });
 
 //rota para salvar update de artigo
-router.post("/admin/update", (req, res) => {
+router.post("/admin/update", adminAuth, (req, res) => {
   var { title, id, category, body } = req.body; //recebendo dados do form
 
   //verificando se dados do form não são nulos

@@ -4,10 +4,13 @@ const bcrypt = require("bcryptjs");
 //Model de User
 const User = require("./User");
 
+//Middleware
+const adminAuth = require("../middlewares/adminAuth");
+
 const router = express.Router();
 
 //rota pra listar os usuários
-router.get("/users", (req, res) => {
+router.get("/users", adminAuth, (req, res) => {
   User.findAll({
     order: [["id", "ASC"]]
   })
@@ -24,11 +27,12 @@ router.get("/users", (req, res) => {
 });
 
 //rota para view de adicionar usuários
-router.get("/users/create", (req, res) => {
+router.get("/users/create", adminAuth, (req, res) => {
   res.render("admin/users/create");
 });
+
 //rota com method=post para salvar user no BD
-router.post("/users/create", (req, res) => {
+router.post("/users/create", adminAuth, (req, res) => {
   try {
     var { email, password } = req.body; // recebendo dados do form
     var salt = bcrypt.genSaltSync(10); // Salt para "aumentar" a segurança da criptografia
@@ -102,7 +106,7 @@ router.post("/authenticate", (req, res) => {
             id: user.id,
             email: user.email
           };
-          res.json(req.session.user);
+          res.redirect("/articles/admin");
         } else {
           // se a senha não bater
           res.redirect("/admin/login");
