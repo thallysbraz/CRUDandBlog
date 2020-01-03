@@ -4,10 +4,12 @@ const bodyParser = require("body-parser");
 //Importando arquivos de rotas
 const categoriesController = require("./categories/CategoriesController"); // Arquivo de Categoria
 const articlesController = require("./articles/ArticlesController"); // Arquivo de Artigo
+const usersController = require("./users/UsersController"); // Arquivo de user
 
 // Importando arquivos de Models
 const Category = require("./categories/Category"); // Model de Categorias
 const Article = require("./articles/Article"); // Model de artigos.
+const User = require("./users/User"); // Model de usuários
 
 // Import arquivo de config e criando conexão com o Banco de Dados
 const connection = require("./database/database");
@@ -131,8 +133,9 @@ app.get("/category/:slug", (req, res) => {
     });
 });
 
-app.use("/categories", categoriesController); // Middleware de rotas de categorias
-app.use("/articles", articlesController); // Middleware de rotas de artigos
+app.use("/categories", categoriesController); // Middleware das rotas de categorias
+app.use("/articles", articlesController); // Middleware das rotas de artigos
+app.use("/admin", usersController); // Middleware das rotas de usuário
 
 //porta que o serve está rodando
 app.listen(PORT, () => {
