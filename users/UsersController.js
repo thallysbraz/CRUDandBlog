@@ -9,7 +9,7 @@ const router = express.Router();
 //rota pra listar os usuários
 router.get("/users", (req, res) => {
   User.findAll({
-    order: [["id", "DESC"]]
+    order: [["id", "ASC"]]
   })
     .then(users => {
       res.render("admin/users/index", { users: users });
