@@ -1,5 +1,7 @@
+//Arquivos de pacotes
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 
 //Importando arquivos de rotas
 const categoriesController = require("./categories/CategoriesController"); // Arquivo de Categoria
@@ -13,7 +15,6 @@ const User = require("./users/User"); // Model de usuários
 
 // Import arquivo de config e criando conexão com o Banco de Dados
 const connection = require("./database/database");
-
 connection
   .authenticate()
   .then(() => {
@@ -36,6 +37,14 @@ app.use(express.static("public")); //reconhecendo arquivos estaticos
 //Config Body-Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); //reconhecendo JSON
+
+//configurando sessions
+app.use(
+  session({
+    secret: "d31eea6de784321c97cd14231f7c617e",
+    cookie: { maxAge: 30000 } // cookie para referenciar a sessions || maxAge: tempo maximo da sessions
+  })
+);
 
 //rotas
 
