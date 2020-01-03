@@ -225,7 +225,21 @@ router.get("/pages/:num", (req, res) => {
       }
 
       var result = { next: next, articles: articles };
-      res.json(result);
+
+      Category.findAll()
+        .then(categories => {
+          res.render("admin/articles/page", {
+            result: result,
+            categories: categories
+          });
+        })
+        .catch(error => {
+          // se der erro interno, mostra json ao usuário com o erro.
+          res.status(404).json({
+            msg: "Error interno",
+            error: error
+          });
+        });
     })
     .catch(error => {
       // se der erro interno, mostra json ao usuário com o erro.
