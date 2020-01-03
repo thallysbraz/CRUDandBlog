@@ -82,4 +82,43 @@ router.post("/users/create", (req, res) => {
   }
 });
 
+//rota de renderizar view de login
+router.get("/login", (req, res) => {
+  res.render("admin/users/login");
+});
+//rota pra fazer o login
+
+router.post("/authenticate", (req, res) => {
+  var { email, password } = req.body;
+  User.findOne({ where: { email: email } })
+    .then(user => {
+      if (user) {
+        // se encontrou algum usuário, faz a validação
+        var correct = bcrypt.compareSync(password, user.password); // comparando senha
+
+        if (correct) {
+          // se a senha bater, cria sessão de usuário
+          req.session.user = {
+            id: user.id,
+            email: user.email
+          };
+          res.json(req.session.user);
+        } else {
+          // se a senha não bater
+          res.redirect("/admin/login");
+        }
+      } else {
+        // se não encontrou, redireciona pra view de login novamente
+        res.redirect("/admin/login");
+      }
+    })
+    .catch(error => {
+      // se der erro interno, mostra json ao usuário com o erro.
+      res.status(404).json({
+        msg: "Error interno ao authenticar usuário",
+        error: error
+      });
+    });
+});
+
 module.exports = router;

@@ -1,0 +1,38 @@
+<%- include ("../../partials/header.ejs") %> <%- include
+("../../partials/navbar.ejs") %>
+
+<div class="container">
+  <hr />
+  <div class="card" style="margin-top: 5px;">
+    <div class="card-header">
+      <h2>Login</h2>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="/admin/authenticate">
+        <label>Email:</label>
+        <input
+          class="form-control"
+          name="email"
+          type="email"
+          placeholder="email@exemplo.com"
+          style="margin-bottom: 5px;"
+          required
+        />
+        <label>Senha:</label>
+        <input
+          class="form-control"
+          name="password"
+          type="password"
+          placeholder="******"
+          style="margin-bottom: 5px;"
+          required
+        />
+        <button type="submit" class="btn btn-success btn-block">
+          Login <i class="fas fa-sign-in-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ("../../partials/footer.ejs") %>
