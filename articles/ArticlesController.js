@@ -253,3 +253,12 @@ router.get("/pages/:num", (req, res) => {
 module.exports = router;
 
 //tiny.cloud/get-tiny/language-packages
+/*
+IF no EJS
+
+ <% if() { %>
+
+            <% } else { %>
+
+            <% } %>
+*/
