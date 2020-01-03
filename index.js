@@ -42,7 +42,7 @@ app.use(bodyParser.json()); //reconhecendo JSON
 app.use(
   session({
     secret: "d31eea6de784321c97cd14231f7c617e",
-    cookie: { maxAge: 30000 } // cookie para referenciar a sessions || maxAge: tempo maximo da sessions
+    cookie: { maxAge: 1800000 } // cookie para referenciar a sessions || maxAge: tempo maximo da sessions
   })
 );
 
