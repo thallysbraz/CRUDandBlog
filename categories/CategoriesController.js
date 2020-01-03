@@ -9,7 +9,9 @@ const Category = require("./Category");
 //rota para listar as categorias
 router.get("/admin/categories", (req, res) => {
   //Buscando Categorias no Banco de dados
-  Category.findAll()
+  Category.findAll({
+    order: [["id", "DESC"]]
+  })
     .then(categories => {
       res.render("admin/categories/index", {
         categories: categories

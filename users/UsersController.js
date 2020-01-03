@@ -86,8 +86,8 @@ router.post("/users/create", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("admin/users/login");
 });
-//rota pra fazer o login
 
+//rota pra fazer o login
 router.post("/authenticate", (req, res) => {
   var { email, password } = req.body;
   User.findOne({ where: { email: email } })
