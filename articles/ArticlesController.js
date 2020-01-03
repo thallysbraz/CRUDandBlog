@@ -13,7 +13,8 @@ router.get("/admin", (req, res) => {
   Buscando artigos no banco e incluindo model de Category para fazer join entre artigos e categorias para exibir a qual categoria cada artigo pertence no front
   */
   Article.findAll({
-    include: [{ model: Category }]
+    include: [{ model: Category }],
+    order: [["id", "DESC"]]
   })
     .then(articles => {
       //render view com os artigos encontrados
