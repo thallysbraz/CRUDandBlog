@@ -46,7 +46,34 @@ app.use(
   })
 );
 
+// config de rotas
+app.use("/categories", categoriesController); // Middleware das rotas de categorias
+app.use("/articles", articlesController); // Middleware das rotas de artigos
+app.use("/admin", usersController); // Middleware das rotas de usuário
+
 //rotas
+
+//rotas de teste session e leitura
+app.get("/session", (req, res) => {
+  req.session.treinamento = "Fromação NodeJS";
+  req.session.ano = 2019;
+  req.session.email = "thallysbraz3@gmail.com";
+  req.session.user = {
+    username: "thallys",
+    email: "email@exemple.com",
+    id: 10
+  };
+  res.send("Sessão gerada");
+});
+
+app.get("/leitura", (req, res) => {
+  res.json({
+    treinamento: req.session.treinamento,
+    ano: req.session.ano,
+    email: req.session.email,
+    user: req.session.user
+  });
+});
 
 //rota raiz
 app.get("/", (req, res) => {
@@ -141,10 +168,6 @@ app.get("/category/:slug", (req, res) => {
       });
     });
 });
-
-app.use("/categories", categoriesController); // Middleware das rotas de categorias
-app.use("/articles", articlesController); // Middleware das rotas de artigos
-app.use("/admin", usersController); // Middleware das rotas de usuário
 
 //porta que o serve está rodando
 app.listen(PORT, () => {
