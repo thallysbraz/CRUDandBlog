@@ -40,7 +40,7 @@ app.use(bodyParser.json()); //reconhecendo JSON
 //rota raiz
 app.get("/", (req, res) => {
   //Pesquisando artigos
-  Article.findAll({ include: [{ model: Category }] })
+  Article.findAll({ order: [["id", "DESC"]] })
     .then(articles => {
       res.render("index", { articles: articles });
     })
