@@ -188,7 +188,7 @@ router.post("/admin/update", (req, res) => {
         .catch(error => {
           // se der erro interno, mostra json ao usuário com o erro.
           res.status(404).json({
-            msg: "Error interno ao atualizar categoria",
+            msg: "Error interno ao atualizar artigo",
             error: error
           });
         });
@@ -200,6 +200,40 @@ router.post("/admin/update", (req, res) => {
     //Se dados do form forem nulo, redirec para view de listar os artigos
     res.redirect("/articles/admin");
   }
+});
+
+//rota de paginação
+router.get("/pages/:num", (req, res) => {
+  var page = req.params.num;
+  var offset = 0;
+  if (isNaN(page) || page == 1) {
+    offset = 0;
+  } else {
+    offset = parseInt(page) * 4 - 4;
+  }
+
+  Article.findAndCountAll({
+    limit: 4, // numero maximo de dados que o banco retorna
+    offset: offset // Retorna dados a partir de:
+  })
+    .then(articles => {
+      var next;
+      if (offset + 4 >= articles.count) {
+        next = false;
+      } else {
+        next = true;
+      }
+
+      var result = { next: next, articles: articles };
+      res.json(result);
+    })
+    .catch(error => {
+      // se der erro interno, mostra json ao usuário com o erro.
+      res.status(404).json({
+        msg: "Error interno ao atualizar artigo",
+        error: error
+      });
+    });
 });
 
 module.exports = router;
