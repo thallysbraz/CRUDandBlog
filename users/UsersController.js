@@ -91,7 +91,7 @@ router.get("/login", (req, res) => {
   res.render("admin/users/login");
 });
 
-//rota pra fazer o login
+//rota pra validar o login
 router.post("/authenticate", (req, res) => {
   var { email, password } = req.body;
   User.findOne({ where: { email: email } })
@@ -123,6 +123,13 @@ router.post("/authenticate", (req, res) => {
         error: error
       });
     });
+});
+
+//rota de logout
+router.get("/logout", (req, res) => {
+  req.session.user = undefined;
+
+  res.redirect("/");
 });
 
 module.exports = router;
